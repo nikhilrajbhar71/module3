@@ -13,7 +13,6 @@ CREATE TABLE courses (
     student_id INT,
     FOREIGN KEY (student_id) REFERENCES students(student_id)
 );
-
 -- Insert students
 INSERT INTO students (name, age) VALUES ('Alice', 14);
 INSERT INTO students (name, age) VALUES ('Bob', 15);
