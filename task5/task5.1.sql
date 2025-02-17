@@ -1,58 +1,44 @@
--- question link : https://docs.google.com/document/d/1Godh3GllVEIuRCcGZI7GKqa9DDFTnxegMACxBMoMWyI/edit?tab=t.0
+CREATE DATABASE QUESTION2;
+USE QUESTION2;
 
-
-CREATE DATABASE questionone;
-use questionone;
-
-CREATE TABLE Students (
-    ID INT PRIMARY KEY,
-    Name VARCHAR(100) NOT NULL
+CREATE TABLE Hackers (
+    hacker_id INT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL
 );
 
-CREATE TABLE Friends (
-    ID INT PRIMARY KEY,
-    Friend_ID INT UNIQUE,
-    FOREIGN KEY (ID) REFERENCES Students(ID),
-    FOREIGN KEY (Friend_ID) REFERENCES Students(ID)
+CREATE TABLE Challenges (
+    challenge_id INT PRIMARY KEY,
+    hacker_id INT,
+    FOREIGN KEY (hacker_id) REFERENCES Hackers(hacker_id)
 );
 
-CREATE TABLE Packages (
-    ID INT PRIMARY KEY,
-    Salary INT NOT NULL,
-    FOREIGN KEY (ID) REFERENCES Students(ID)
-);
-
-
-INSERT INTO Students (ID, Name) VALUES 
-(1, 'Alice'),
-(2, 'Bob'),
-(3, 'Charlie'),
-(4, 'David'),
-(5, 'Eve');
-
-
-INSERT INTO Friends (ID, Friend_ID) VALUES 
-(1, 2),
-(2, 3),
-(3, 4), 
-(4, 5), 
-(5, 1); 
-
-
-INSERT INTO Packages (ID, Salary) VALUES 
-(1, 50),  
-(2, 60),  
-(3, 70),  
-(4, 40), 
-(5, 90);  
+INSERT INTO Hackers (hacker_id, name) VALUES
+(101, 'Alice'),
+(102, 'Bob'),
+(103, 'Charlie'),
+(104, 'David'),
+(105, 'Eve');
 
 
 
-SELECT s1.Name
-FROM Students s1
-JOIN Friends f ON s1.ID = f.ID
-JOIN Packages p1 ON s1.ID = p1.ID
-JOIN Packages p2 ON f.Friend_ID = p2.ID
-WHERE p2.Salary > p1.Salary
-ORDER BY p2.Salary;
+
+INSERT INTO Challenges (challenge_id, hacker_id) VALUES
+(1, 101), 
+(2, 101),  
+(3, 102), 
+(4, 102),  
+(5, 102),  
+(6, 103);
+
+
+
+SELECT h.hacker_id, h.name, 
+       COUNT(c.challenge_id) AS total_challenges
+FROM Hackers h
+LEFT JOIN Challenges c ON h.hacker_id = c.hacker_id
+GROUP BY h.hacker_id, h.name
+ORDER BY total_challenges DESC, h.hacker_id ASC;
+
+
+
 
